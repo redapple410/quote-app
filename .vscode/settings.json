@@ -1,0 +1,22 @@
+{
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+  "eslint.format.enable": true,
+  "eslint.codeActionsOnSave.mode": "all",
+  "[javascript]": {
+    "editor.formatOnSave": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    }
+  },
+  "[typescript]": {
+    "editor.formatOnSave": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    }
+  },
+  "files.exclude": {
+    "node_modules": true
+  },
+  "editor.tabSize": 2,
+  "files.eol": "\n",
+}
