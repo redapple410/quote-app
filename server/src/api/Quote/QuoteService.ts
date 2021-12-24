@@ -7,35 +7,31 @@ interface Quote {
   source?: string;
 }
 
-class QuoteService {
-  getAllQuotes() {
-    return quotes;
-  }
-
-  getRandomQuote() {
-    const idx = Math.floor(Math.random() * quotes.length);
-    return quotes[idx];
-  }
-
-  getQuote(id: string) {
-    const idx = parseInt(id);
-    return quotes[idx];
-  }
-
-  createQuote() {
-    // create new quote
-  }
-
-  editQuote(id: string) {
-    // edit existing quote
-  }
-
-  deleteQuote(id: string) {
-    // delete existing quote
-  }
+export function getAllQuotes() {
+  return quotes;
 }
 
-export default QuoteService;
+export function getRandomQuote() {
+  const idx = Math.floor(Math.random() * quotes.length);
+  return quotes[idx];
+}
+
+export function getQuote(id: string) {
+  const idx = parseInt(id);
+  return quotes[idx];
+}
+
+export function createQuote() {
+  // create new quote
+}
+
+export function editQuote(id: string) {
+  // edit existing quote
+}
+
+export function deleteQuote(id: string) {
+  // delete existing quote
+}
 
 // TODO: use real database with proper ids etc.
 const quotes: Quote[] = [

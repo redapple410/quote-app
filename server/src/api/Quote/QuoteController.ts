@@ -1,32 +1,26 @@
-import QuoteService from "./QuoteService";
+import * as QuoteService from "./QuoteService";
 
-class QuoteController {
-  private quoteService = new QuoteService();
-
-  getAllQuotes() {
-    return this.quoteService.getAllQuotes();
-  }
-
-  getRandomQuote() {
-    return this.quoteService.getRandomQuote();
-  }
-
-  getQuote(id: string) {
-    // TODO: validate id
-    return this.quoteService.getQuote(id);
-  }
-
-  createQuote() {
-    // create new quote
-  }
-
-  editQuote(id: string) {
-    // edit existing quote
-  }
-
-  deleteQuote(id: string) {
-    // delete existing quote
-  }
+export function getAllQuotes() {
+  return QuoteService.getAllQuotes();
 }
 
-export default QuoteController;
+export function getRandomQuote() {
+  return QuoteService.getRandomQuote();
+}
+
+export function getQuote(id: string) {
+  // TODO: validate id
+  return QuoteService.getQuote(id);
+}
+
+export function createQuote() {
+  // create new quote
+}
+
+export function editQuote(id: string) {
+  // edit existing quote
+}
+
+export function deleteQuote(id: string) {
+  // delete existing quote
+}

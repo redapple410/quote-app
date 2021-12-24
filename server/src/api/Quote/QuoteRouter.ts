@@ -1,16 +1,15 @@
 import { Router } from "express";
-import QuoteController from "./QuoteController";
+import * as QuoteController from "./QuoteController";
 
 const router = Router();
-const quoteController = new QuoteController();
 
 router.get("/all", (req, res) => {
-  const quotes = quoteController.getAllQuotes();
+  const quotes = QuoteController.getAllQuotes();
   res.send(quotes);
 });
 
 router.get("/random", (req, res) => {
-  const quote = quoteController.getRandomQuote();
+  const quote = QuoteController.getRandomQuote();
   res.send(quote);
 });
 
@@ -21,7 +20,7 @@ router.post("/create", (req, res, next) => {
 router
   .route("/:id")
   .get((req, res) => {
-    const quote = quoteController.getQuote(req.params.id);
+    const quote = QuoteController.getQuote(req.params.id);
     res.send(quote);
   })
   .put((req, res, next) => {
