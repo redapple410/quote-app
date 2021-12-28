@@ -28,11 +28,11 @@ export function createQuote() {
   // create new quote
 }
 
-export function editQuote(id: string) {
+export function editQuote(/* id: string */) {
   // edit existing quote
 }
 
-export function deleteQuote(id: string) {
+export function deleteQuote(/* id: string */) {
   // delete existing quote
 }
 

@@ -3,31 +3,16 @@ import * as QuoteController from "./QuoteController";
 
 const router = Router();
 
-router.get("/all", (req, res) => {
-  const quotes = QuoteController.getAllQuotes();
-  res.send(quotes);
-});
+router.get("/all", QuoteController.getAllQuotes);
 
-router.get("/random", (req, res) => {
-  const quote = QuoteController.getRandomQuote();
-  res.send(quote);
-});
+router.get("/random", QuoteController.getRandomQuote);
 
-router.post("/create", (req, res, next) => {
-  next(new Error("WIP"));
-});
+router.post("/create", QuoteController.createQuote);
 
 router
   .route("/:id")
-  .get((req, res) => {
-    const quote = QuoteController.getQuote(req.params.id);
-    res.send(quote);
-  })
-  .put((req, res, next) => {
-    next(new Error("WIP"));
-  })
-  .delete((req, res, next) => {
-    next(new Error("WIP"));
-  });
+  .get(QuoteController.getQuote)
+  .put(QuoteController.editQuote)
+  .delete(QuoteController.deleteQuote);
 
 export default router;
