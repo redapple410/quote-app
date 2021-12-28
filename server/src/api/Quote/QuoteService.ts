@@ -3,7 +3,10 @@ interface Quote {
     author?: string;
     content: string;
   }[];
-  date?: Date;
+  date?: {
+    year: string;
+    month: Month;
+  };
   source?: string;
 }
 
@@ -33,6 +36,20 @@ export function deleteQuote(id: string) {
   // delete existing quote
 }
 
+type Month =
+  | "01"
+  | "02"
+  | "03"
+  | "04"
+  | "05"
+  | "06"
+  | "07"
+  | "08"
+  | "09"
+  | "10"
+  | "11"
+  | "12";
+
 // TODO: use real database with proper ids etc.
 const quotes: Quote[] = [
   {
@@ -46,7 +63,10 @@ const quotes: Quote[] = [
         content: "Quisque eget vehicula felis, eu consectetur leo.",
       },
     ],
-    date: new Date("2021-03-14T00:00:00+0000"),
+    date: {
+      year: "2021",
+      month: "03",
+    },
     source: "https://google.com",
   },
   {
@@ -66,7 +86,10 @@ const quotes: Quote[] = [
           "Suspendisse eget mi aliquam, scelerisque tellus in, euismod dui.",
       },
     ],
-    date: new Date("2021-07-01T00:00:00+0000"),
+    date: {
+      year: "2021",
+      month: "07",
+    },
   },
   {
     quote: [
