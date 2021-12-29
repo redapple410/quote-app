@@ -18,9 +18,12 @@ export async function getAllQuotes() {
   return (await collections.quote?.find({}).toArray()) as Quote[];
 }
 
-export function getRandomQuote() {
-  const idx = Math.floor(Math.random() * quotes.length);
-  return quotes[idx];
+export async function getRandomQuote() {
+  const cursor = collections.quote?.aggregate([{ $sample: { size: 1 } }]);
+  if (await cursor?.hasNext()) {
+    return (await cursor?.next()) as Quote;
+  }
+  return null;
 }
 
 export function getQuote(id: string) {

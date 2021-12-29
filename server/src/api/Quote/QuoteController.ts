@@ -14,9 +14,21 @@ export async function getAllQuotes(_req: Request, res: Response) {
   }
 }
 
-export function getRandomQuote(_req: Request, res: Response) {
-  const quote = QuoteService.getRandomQuote();
-  res.send(quote);
+export async function getRandomQuote(_req: Request, res: Response) {
+  try {
+    const quote = await QuoteService.getRandomQuote();
+    if (quote) {
+      res.status(200).send(quote);
+    } else {
+      res.status(204).send();
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .send(
+        error instanceof Error ? error.message : "Sorry, an error occurred."
+      );
+  }
 }
 
 export function getQuote(req: Request, res: Response) {
