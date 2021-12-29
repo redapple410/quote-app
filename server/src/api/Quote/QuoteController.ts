@@ -6,11 +6,7 @@ export async function getAllQuotes(_req: Request, res: Response) {
     const quotes = await QuoteService.getAllQuotes();
     res.status(200).send(quotes);
   } catch (error) {
-    res
-      .status(500)
-      .send(
-        error instanceof Error ? error.message : "Sorry, an error occurred."
-      );
+    res.status(500).send("Sorry, an error occurred.");
   }
 }
 
@@ -23,11 +19,7 @@ export async function getRandomQuote(_req: Request, res: Response) {
       res.status(204).send();
     }
   } catch (error) {
-    res
-      .status(500)
-      .send(
-        error instanceof Error ? error.message : "Sorry, an error occurred."
-      );
+    res.status(500).send("Sorry, an error occurred.");
   }
 }
 
