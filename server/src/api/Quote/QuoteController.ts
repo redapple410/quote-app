@@ -1,9 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 import * as QuoteService from "./QuoteService";
 
-export function getAllQuotes(_req: Request, res: Response) {
-  const quotes = QuoteService.getAllQuotes();
-  res.send(quotes);
+export async function getAllQuotes(_req: Request, res: Response) {
+  try {
+    const quotes = await QuoteService.getAllQuotes();
+    res.status(200).send(quotes);
+  } catch (error) {
+    res
+      .status(500)
+      .send(
+        error instanceof Error ? error.message : "Sorry, an error occurred."
+      );
+  }
 }
 
 export function getRandomQuote(_req: Request, res: Response) {

@@ -1,4 +1,8 @@
+import { ObjectId } from "mongodb";
+import { collections } from "../../lib/database";
+
 interface Quote {
+  _id: ObjectId;
   quote: {
     author?: string;
     content: string;
@@ -10,8 +14,8 @@ interface Quote {
   source?: string;
 }
 
-export function getAllQuotes() {
-  return quotes;
+export async function getAllQuotes() {
+  return (await collections.quote?.find({}).toArray()) as Quote[];
 }
 
 export function getRandomQuote() {
@@ -51,7 +55,7 @@ type Month =
   | "12";
 
 // TODO: use real database with proper ids etc.
-const quotes: Quote[] = [
+const quotes = [
   {
     quote: [
       {
