@@ -1,18 +1,6 @@
 import { ObjectId } from "mongodb";
 import { collections } from "../../lib/database";
-
-interface Quote {
-  _id: ObjectId;
-  quote: {
-    author?: string;
-    content: string;
-  }[];
-  date?: {
-    year: string;
-    month: Month;
-  };
-  source?: string;
-}
+import { Quote } from "../../types";
 
 export async function getAllQuotes() {
   return (await collections.quote?.find({}).toArray()) as Quote[];
@@ -42,17 +30,3 @@ export function editQuote(/* id: string */) {
 export function deleteQuote(/* id: string */) {
   // delete existing quote
 }
-
-type Month =
-  | "01"
-  | "02"
-  | "03"
-  | "04"
-  | "05"
-  | "06"
-  | "07"
-  | "08"
-  | "09"
-  | "10"
-  | "11"
-  | "12";
