@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { Router } from "express";
+import express, { Router } from "express";
 import * as QuoteController from "./QuoteController";
 
 const router = Router();
+router.use(express.json());
 
 router.get("/all", QuoteController.getAllQuotes);
 

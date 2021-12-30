@@ -1,5 +1,7 @@
 import { BSONTypeError } from "bson";
 import { NextFunction, Request, Response } from "express";
+import { MongoServerError } from "mongodb";
+import { Quote } from "../../types";
 import * as QuoteService from "./QuoteService";
 
 export async function getAllQuotes(_req: Request, res: Response) {
@@ -42,9 +44,22 @@ export async function getQuote(req: Request, res: Response) {
   }
 }
 
-export function createQuote(_req: Request, _res: Response, next: NextFunction) {
-  next(new Error("WIP"));
-  // TODO: create new quote
+export async function createQuote(req: Request, res: Response) {
+  try {
+    const quoteData = req.body as Omit<Quote, "_id">;
+    const quoteId = await QuoteService.createQuote(quoteData);
+    if (quoteId) {
+      res.status(200).send(quoteId);
+    } else {
+      throw new Error();
+    }
+  } catch (error) {
+    if (error instanceof MongoServerError) {
+      res.status(400).send("Improper quote format.");
+    } else {
+      res.status(500).send("Sorry, an error occurred.");
+    }
+  }
 }
 
 export function editQuote(req: Request, _res: Response, next: NextFunction) {

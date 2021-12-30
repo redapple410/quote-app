@@ -19,8 +19,12 @@ export async function getQuoteById(id: string) {
   return (await collections.quote?.findOne({ _id: quoteId })) as Quote;
 }
 
-export function createQuote() {
-  // create new quote
+export async function createQuote(data: Omit<Quote, "_id">) {
+  const newQuote = await collections.quote?.insertOne(data);
+  if (newQuote) {
+    return newQuote.insertedId.toString();
+  }
+  return null;
 }
 
 export function editQuote(/* id: string */) {
