@@ -26,9 +26,9 @@ export async function getRandomQuote() {
   return null;
 }
 
-export function getQuote(id: string) {
-  const idx = parseInt(id);
-  return quotes[idx];
+export async function getQuoteById(id: string) {
+  const quoteId = new ObjectId(id);
+  return (await collections.quote?.findOne({ _id: quoteId })) as Quote;
 }
 
 export function createQuote() {
@@ -56,53 +56,3 @@ type Month =
   | "10"
   | "11"
   | "12";
-
-// TODO: use real database with proper ids etc.
-const quotes = [
-  {
-    quote: [
-      {
-        author: "Alice",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      },
-      {
-        author: "Bob",
-        content: "Quisque eget vehicula felis, eu consectetur leo.",
-      },
-    ],
-    date: {
-      year: "2021",
-      month: "03",
-    },
-    source: "https://google.com",
-  },
-  {
-    quote: [
-      {
-        author: "Eve",
-        content: "Sed mattis tempor ultricies.",
-      },
-    ],
-    source: "https://youtube.com",
-  },
-  {
-    quote: [
-      {
-        author: "Carol",
-        content:
-          "Suspendisse eget mi aliquam, scelerisque tellus in, euismod dui.",
-      },
-    ],
-    date: {
-      year: "2021",
-      month: "07",
-    },
-  },
-  {
-    quote: [
-      {
-        content: "Sed malesuada elit in rutrum posuere.",
-      },
-    ],
-  },
-];
