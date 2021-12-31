@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { CustomError, NotFoundError } from "../../lib/error";
+import { CustomError } from "../../lib/error";
 import { Quote } from "../../types";
 import * as QuoteService from "./QuoteService";
 
@@ -19,7 +19,7 @@ export async function getQuote(req: Request, res: Response) {
   if (quote) {
     res.status(200).send(quote);
   } else {
-    throw new NotFoundError(`Quote with ID ${quoteId} not found.`, quoteId);
+    throw new CustomError(500, "Unable to get quote.");
   }
 }
 

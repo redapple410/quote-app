@@ -1,7 +1,7 @@
 import { BSONTypeError } from "bson";
 import { MongoServerError, ObjectId } from "mongodb";
 import { collections } from "../../lib/database";
-import { ValidationError } from "../../lib/error";
+import { NotFoundError, ValidationError } from "../../lib/error";
 import { Quote } from "../../types";
 
 export async function getAllQuotes() {
@@ -19,7 +19,11 @@ export async function getRandomQuote() {
 export async function getQuoteById(id: string) {
   try {
     const quoteId = new ObjectId(id);
-    return (await collections.quote?.findOne({ _id: quoteId })) as Quote;
+    const quote = await collections.quote?.findOne({ _id: quoteId });
+    if (quote) {
+      return quote as Quote;
+    }
+    throw new NotFoundError(`Quote with ID ${id} not found.`, id);
   } catch (error) {
     if (error instanceof BSONTypeError) {
       throw new ValidationError(404, `Invalid ID ${id}.`);
