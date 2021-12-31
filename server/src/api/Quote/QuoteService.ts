@@ -75,6 +75,15 @@ export async function editQuote(id: string, data: Partial<Omit<Quote, "_id">>) {
   }
 }
 
-export function deleteQuote(/* id: string */) {
-  // delete existing quote
+export async function deleteQuote(id: string) {
+  try {
+    const quoteId = new ObjectId(id);
+    const result = await collections?.quote?.deleteOne({ _id: quoteId });
+    return !!result?.deletedCount;
+  } catch (error) {
+    if (error instanceof BSONTypeError) {
+      throw new ValidationError(404, `Invalid ID ${id}.`);
+    }
+    throw error;
+  }
 }

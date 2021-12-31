@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { CustomError } from "../../lib/error";
 import { Quote } from "../../types";
 import * as QuoteService from "./QuoteService";
@@ -40,13 +40,18 @@ export async function editQuote(req: Request, res: Response) {
   if (updatedQuote) {
     res.status(200).send(updatedQuote);
   } else {
+    // TODO: improve error messaging when quote not found
     throw new CustomError(500, "Unable to edit quote.");
   }
 }
 
-export function deleteQuote(req: Request, _res: Response, next: NextFunction) {
-  // TODO: validate id
-  // const quoteId = req.params.id;
-  next(new Error("WIP"));
-  // TODO: delete existing quote
+export async function deleteQuote(req: Request, res: Response) {
+  const quoteId = req.params.id;
+  const isSuccessful = await QuoteService.deleteQuote(quoteId);
+  if (isSuccessful) {
+    res.status(204).send();
+  } else {
+    // TODO: improve error messaging when quote not found
+    throw new CustomError(500, "Unable to delete quote.");
+  }
 }
