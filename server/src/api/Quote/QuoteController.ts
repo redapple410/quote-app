@@ -10,11 +10,7 @@ export async function getAllQuotes(_req: Request, res: Response) {
 
 export async function getRandomQuote(_req: Request, res: Response) {
   const quote = await QuoteService.getRandomQuote();
-  if (quote) {
-    res.status(200).send(quote);
-  } else {
-    res.status(204).send();
-  }
+  res.status(200).send(quote);
 }
 
 export async function getQuote(req: Request, res: Response) {
