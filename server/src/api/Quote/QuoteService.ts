@@ -1,5 +1,7 @@
-import { ObjectId } from "mongodb";
+import { BSONTypeError } from "bson";
+import { MongoServerError, ObjectId } from "mongodb";
 import { collections } from "../../lib/database";
+import { ValidationError } from "../../lib/error";
 import { Quote } from "../../types";
 
 export async function getAllQuotes() {
@@ -15,16 +17,33 @@ export async function getRandomQuote() {
 }
 
 export async function getQuoteById(id: string) {
-  const quoteId = new ObjectId(id);
-  return (await collections.quote?.findOne({ _id: quoteId })) as Quote;
+  try {
+    const quoteId = new ObjectId(id);
+    return (await collections.quote?.findOne({ _id: quoteId })) as Quote;
+  } catch (error) {
+    if (error instanceof BSONTypeError) {
+      throw new ValidationError(404, `Invalid ID ${id}.`);
+    }
+    throw error;
+  }
 }
 
 export async function createQuote(data: Omit<Quote, "_id">) {
-  const newQuote = await collections.quote?.insertOne(data);
-  if (newQuote) {
-    return newQuote.insertedId.toString();
+  try {
+    const newQuote = await collections.quote?.insertOne(data);
+    if (newQuote) {
+      return newQuote.insertedId.toString();
+    }
+    return null;
+  } catch (error) {
+    if (
+      error instanceof MongoServerError &&
+      error.message.includes("validation")
+    ) {
+      throw new ValidationError(400, "Improper quote format.");
+    }
+    throw error;
   }
-  return null;
 }
 
 export function editQuote(/* id: string */) {
