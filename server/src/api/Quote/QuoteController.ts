@@ -27,7 +27,7 @@ export async function createQuote(req: Request, res: Response) {
   const quoteData = req.body as Omit<Quote, "_id">;
   const quoteId = await QuoteService.createQuote(quoteData);
   if (quoteId) {
-    res.status(200).send(quoteId);
+    res.status(201).send(quoteId);
   } else {
     throw new CustomError(500, "Unable to create quote.");
   }
