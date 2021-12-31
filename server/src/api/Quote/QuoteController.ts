@@ -37,11 +37,15 @@ export async function createQuote(req: Request, res: Response) {
   }
 }
 
-export function editQuote(req: Request, _res: Response, next: NextFunction) {
-  // TODO: validate id
-  // const quoteId = req.params.id;
-  next(new Error("WIP"));
-  // TODO: edit existing quote
+export async function editQuote(req: Request, res: Response) {
+  const quoteId = req.params.id;
+  const quoteUpdateData = req.body as Partial<Omit<Quote, "_id">>;
+  const updatedQuote = await QuoteService.editQuote(quoteId, quoteUpdateData);
+  if (updatedQuote) {
+    res.status(200).send(updatedQuote);
+  } else {
+    throw new CustomError(500, "Unable to edit quote.");
+  }
 }
 
 export function deleteQuote(req: Request, _res: Response, next: NextFunction) {

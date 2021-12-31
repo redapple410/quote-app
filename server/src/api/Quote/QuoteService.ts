@@ -46,8 +46,29 @@ export async function createQuote(data: Omit<Quote, "_id">) {
   }
 }
 
-export function editQuote(/* id: string */) {
-  // edit existing quote
+export async function editQuote(id: string, data: Partial<Omit<Quote, "_id">>) {
+  try {
+    const quoteId = new ObjectId(id);
+    const updatedDocument = await collections.quote?.findOneAndUpdate(
+      { _id: quoteId },
+      { $set: data },
+      { returnDocument: "after" }
+    );
+    if (updatedDocument?.ok) {
+      return updatedDocument.value as Quote;
+    }
+    return null;
+  } catch (error) {
+    if (error instanceof BSONTypeError) {
+      throw new ValidationError(404, `Invalid ID ${id}.`);
+    } else if (
+      error instanceof MongoServerError &&
+      error.message.includes("validation")
+    ) {
+      throw new ValidationError(400, "Improper quote format.");
+    }
+    throw error;
+  }
 }
 
 export function deleteQuote(/* id: string */) {
