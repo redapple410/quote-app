@@ -1,33 +1,25 @@
 <script lang="ts">
-  export let name: string;
+  // TODO: figure out a better way to get Quote type
+  import type { Quote } from "../../server/src/types";
+
+  async function getAllQuotes() {
+    const response = await fetch("http://localhost:3000/api/quote/all");
+    const quotes = (await response.json()) as Quote[];
+    return quotes;
+  }
 </script>
 
 <main>
-  <h1>Hello {name}!</h1>
-  <p>
-    Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn
-    how to build Svelte apps.
-  </p>
+  <h1>Quotes</h1>
+  {#await getAllQuotes() then quotes}
+    {#each quotes as quote (quote._id)}
+      {#each quote.quote as { author, content }}
+        <section>
+          <p>{author ? `${author}: ` : null}{content}</p>
+        </section>
+      {/each}
+    {/each}
+  {:catch}
+    <p>Sorry, something went wrong.</p>
+  {/await}
 </main>
-
-<style>
-  main {
-    text-align: center;
-    padding: 1em;
-    max-width: 240px;
-    margin: 0 auto;
-  }
-
-  h1 {
-    color: #ff3e00;
-    text-transform: uppercase;
-    font-size: 4em;
-    font-weight: 100;
-  }
-
-  @media (min-width: 640px) {
-    main {
-      max-width: none;
-    }
-  }
-</style>
